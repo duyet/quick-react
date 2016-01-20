@@ -1,15 +1,13 @@
 var React = require('react');
-var CollectionStore = require('../stores/CollectionStore');
 
-var FluxCollection = require('./FluxCollection.react');
+var CollectionStore = require('../stores/CollectionStore');
+var FluxCollectionList = require('./FluxCollectionList.react');
 var QuickForm = require('./QuickForm.react');
 
 // Method to retrieve state from Stores
 function getCollectionState() {
     return {
-        collection: CollectionStore.getCollection(),
-        selected: CollectionStore.getSelected(),
-        urls: CollectionStore.getUrls(),
+        collections: CollectionStore.getCollections(),
     };
 }
 
@@ -37,9 +35,10 @@ var QuickFluxApp = React.createClass({
         return ( 
 			<div className="quick-app">
 				<QuickForm />
-				<FluxCollection 
-					urls={this.state.collection} 
-					count={this.state.cartCount} />
+				<FluxCollectionList 
+					collections={this.state.collections} />
+
+				{this.props.children}
 			</div>
         );
     },

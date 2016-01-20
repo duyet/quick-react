@@ -10,20 +10,12 @@ var QuickFluxActions = {
         })
     },
 
-    // Set currently selected product variation
-    selectUrl: function(index) {
-        AppDispatcher.handleAction({
-            actionType: QuickFluxConstants.SELECT_URL,
-            data: index
-        })
-    },
-
     // Add item to cart
-    addToCollection: function(url, update) {
+    addToCollection: function(url, meta) {
         AppDispatcher.handleAction({
             actionType: QuickFluxConstants.COLLECTION_ADD,
             url: url,
-            update: update
+            meta: meta
         })
     },
 

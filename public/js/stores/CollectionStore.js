@@ -1,16 +1,25 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var EventEmitter = require('events').EventEmitter;
-var QuickFluxConstants = require('../constants/QuickFluxConstants');
 var _ = require('underscore');
+var uuid = require('node-uuid');
+var EventEmitter = require('events').EventEmitter;
+
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var QuickFluxConstants = require('../constants/QuickFluxConstants');
 
 // Initial
-var _collection = {},
-    _selected = null;
+var _collections = [];
+var _collection = {
+	url: '',
+	meta: {
+		title: ''
+	},
+	click: 0,
+	vote: null,
+	user_id: null
+};
 
 // Method to load 
-function loadCollectionData(data) {
-    _url = data[0];
-    _selected = data[0].urls[0];
+function loadCollectionData() {
+	return _collections;
 }
 
 function setSelected(index) {
@@ -18,31 +27,26 @@ function setSelected(index) {
 }
 
 // Add url to collection
-function add(url, meta) {
-    var url_data = {
-        url: url
-    };
+function addToCollection(url, meta) {
+	var _data = _.extend(_collection, {
+		id: uuid.v1(),
+		url: url,
+		meta: meta
+	});
+
     // TODO: Fetch URL info
 
-    _collection.urls.push(_.extend({}, url_data, meta));
+    _collections.push(_data);
 }
 
 // Extend CollectionStore with EventEmitter to add eventing capabilities
 var CollectionStore = _.extend({}, EventEmitter.prototype, {
-    getCollection: function() {
-        return _collection;
-    },
-
-    getSelected: function() {
-        return _selected;
-    },
-
-    getUrls: function() {
-    	return _collection.urls;
+    getCollections: function() {
+        return _collections;
     },
 
     getUrlCount: function() {
-    	return _collection.urls.length;
+    	return _collections.length;
     },	
 
     // Emit Change event
@@ -70,15 +74,11 @@ AppDispatcher.register(function(payload) {
 
         // Respond to RECEIVE_DATA action
         case QuickFluxConstants.RECEIVE_DATA:
-            loadCollectionData(action.data);
-            break;
-
-        case QuickFluxConstants.SELECT_URL:
-            setSelected(action.data);
+            loadCollectionData();
             break;
 
         case QuickFluxConstants.COLLECTION_ADD:
-            add(action.url, action.meta);
+            addToCollection(action.url, action.meta);
             break;
 
         default:

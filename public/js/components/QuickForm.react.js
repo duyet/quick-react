@@ -8,12 +8,13 @@ var QuickForm = React.createClass({
 	},
 
 	// Add item to cart via Actions
-	addToCollection: function(event) {
-		var meta = {};
-		var new_url = this.props.url;
-		QuickFluxActions.addToCollection(url, update);
+	addToCollection: function(e) {
+		e.preventDefault();
 
-		
+		var new_url = this.state.url;
+		QuickFluxActions.addToCollection(new_url, {});
+
+		this.setState({url: ''}); // Reset
 	},
 
 	handleChangeUrl: function(e) {
@@ -24,12 +25,12 @@ var QuickForm = React.createClass({
 	  render: function() {
 		return (
 		  <div className="quick-form">
-			<form>
+			<form onSubmit={this.addToCollection}>
 			  <div className="form-group">
 				<input className="form-control" name="url" value={this.state.url} onChange={this.handleChangeUrl} />
 			  </div>
 			  <center>
-				<button type="submit" className="btn btn-primary" onClick={this.addToCollection}>Add</button>
+				<button type="submit" className="btn btn-primary">Add</button>
 			  </center>
 			</form>
 		  </div>
