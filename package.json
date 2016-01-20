@@ -1,0 +1,44 @@
+{
+  "name": "quick",
+  "version": "0.1.0",
+  "description": "Save link, by quick collection, quick access",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "watchify -o js/bundle.js -v -d .",
+    "build": "browserify . | uglifyjs -cm > js/bundle.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duyetdev/quick.git"
+  },
+  "keywords": [
+    "quick",
+    "nodejs",
+    "link"
+  ],
+  "author": "Van-Duyet Le <me@duyetdev.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/duyetdev/quick/issues"
+  },
+  "homepage": "https://github.com/duyetdev/quick#readme",
+  "dependencies": {
+    "flux": "^2.1.1",
+    "react": "^0.14.6",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "envify": "^3.4.0",
+    "react": "^0.14.6",
+    "reactify": "^1.1.1",
+    "watchify": "^3.7.0"
+  },
+  "browserify": {
+    "transform": [
+      "reactify",
+      "envify"
+    ]
+  }
+}
