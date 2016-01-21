@@ -28,7 +28,7 @@ function setSelected(index) {
 
 // Add url to collection
 function addToCollection(url, meta) {
-	var _data = _.extend(_collection, {
+	var _data = _.extend({}, _collection, {
 		id: uuid.v1(),
 		url: url,
 		meta: meta

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="public/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="public/css/app.css" />
-    <link href='https://me.duyetdev.com/assets/images/7mau.jpg' rel='icon' type='image/png'/>
+    <link href='https://me.duyetdev.com/assets/images/7mau.jpg' rel='icon' type='image/png' />
 </head>
 
 <body>
@@ -20,17 +20,28 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#/about">About</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"  id="login-button"></a>
+                    </li>
                 </ul>
             </nav>
             <h3 class="text-muted">Quick</h3>
         </div>
-
         <section id="quick-app">Loading...</section>
-		
-		<footer class="footer">
-			<p>by jsLab</p>
-		</footer>
+        <footer class="footer">
+            <p>by jsLab</p>
+        </footer>
     </div>
+    <script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '585065088308311',
+            xfbml: true,
+            version: 'v2.5'
+        });
+    };
+    </script>
+    <script id="facebook-jssdk" src="//connect.facebook.net/en_US/sdk.js"></script>
     <script type="text/javascript" src="public/js/bundle.js"></script>
 </body>
 
