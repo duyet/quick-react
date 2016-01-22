@@ -40,7 +40,13 @@ var QuickFluxActions = {
             actionType: QuickFluxConstants.SET_USER,
             user: user
         })  
-    }
+    }, 
+
+    getUser: function() {
+        AppDispatcher.handleAction({
+            actionType: QuickFluxConstants.GET_USER
+        })  
+    }, 
 };
 
 module.exports = QuickFluxActions;

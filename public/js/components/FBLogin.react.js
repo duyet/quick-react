@@ -25,7 +25,7 @@ var FBLogin = React.createClass({
 				});
 			}
 			else {
-				FB.login();
+				// FB.login();
 			}
 		});
     },
@@ -36,15 +36,31 @@ var FBLogin = React.createClass({
         });
     },
 
-    handleClickLogin: function() {
-    	if (!this.state.isLogin) this.FB.login(function(){}, {scope: 'public_profile,email'});
+    handleClickLogin: function(e) {
+    	if (!this.state.isLogin) {
+            this.doLogin();            
+        }
+    },
+
+    doLogin: function() {
+       var self = this;
+       this.FB.login(function(response){
+            if (response.authResponse) {
+                self.setState({isLogin: true});
+
+                FB.api('/me', {}, function(response) {
+                    QuickFluxActions.setUser(response);
+                    self.setState({users: response});
+                });
+            }
+        }, {scope: 'public_profile,email'}); 
     },
 
     render: function() {
     	var text = "Login";
     	if (this.state.users && this.state.users.name) text = this.state.users.name;
         return (
-			<a className="nav-link" href="#" 
+			<a className="nav-link" href="#/me" 
 				title="User data will save in your browser." 
 				data-user-id={this.state.users.id} 
 				onClick={this.handleClickLogin}>{text}</a>

@@ -59,6 +59,10 @@ AppDispatcher.register(function(payload) {
             setUser(action.user);
             break;
 
+        case QuickFluxConstants.GET_USER:
+            getUser();
+            break;
+
         default:
             return true;
     }
@@ -67,7 +71,6 @@ AppDispatcher.register(function(payload) {
     UserStore.emitChange();
 
     return true;
-
 });
 
 module.exports = UserStore;

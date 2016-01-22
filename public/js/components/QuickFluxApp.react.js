@@ -7,7 +7,6 @@ var QuickForm = require('./QuickForm.react');
 
 // Method to retrieve state from Stores
 function getCollectionState() {
-    console.error("Load collection state");
     return {
         collections: CollectionStore.getCollections(),
     };

@@ -24,6 +24,10 @@ body {
   line-height: 3rem;
 }
 
+.header #quick-logo:first-letter {
+  text-decoration: overline
+}
+
 /* Custom page footer */
 .footer {
   padding-top: 10px;
