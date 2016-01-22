@@ -11,26 +11,21 @@ var QuickForm = React.createClass({
 	// Add item to cart via Actions
 	addToCollection: function(e) {
 		e.preventDefault();
+		this.setState({error: ''}); // Reset
 
 		var new_url = this.state.url;
+		if (!new_url || new_url.length == 0) {
+			this.setState({error: 'URI is empty.'});
+			return;
+		}
+
 		if (!validUrl.isUri(new_url)) new_url = 'http://' + new_url;
 		if (!validUrl.isUri(new_url)) {
 			this.setState({error: 'Invalid'});
 			return;
 		}
 
-$.ajax({
-    url: 'http://news.bbc.co.uk',
-    type: 'GET',
-    success: function(res) {
-        var headline = $(res.responseText).find('a.tsh').text();
-        alert(headline);
-    }
-});
-
-
 		QuickFluxActions.addToCollection(new_url, {});
-
 		this.setState({url: ''}); // Reset
 	},
 
@@ -44,7 +39,7 @@ $.ajax({
 		  <div className="quick-form">
 			<form onSubmit={this.addToCollection}>
 			  <div className="form-group">
-			  	{this.state.error}
+			  	<span className="text-warning">{this.state.error}</span>
 				<input className="form-control" name="url" value={this.state.url} onChange={this.handleChangeUrl} />
 			  </div>
 			  <center>

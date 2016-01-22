@@ -24,9 +24,18 @@
   },
   "homepage": "https://github.com/duyetdev/quick#readme",
   "dependencies": {
+    "babel": "^6.3.26",
+    "babel-register": "^6.4.3",
+    "copy-to": "^2.0.1",
     "fbjs": "^0.6.1",
     "flux": "^2.1.1",
     "history": "^1.17.0",
+    "koa": "^1.1.2",
+    "koa-middlewares": "^4.1.0",
+    "koa-react-view": "^2.0.0",
+    "koa-route": "^2.4.2",
+    "koa-static-cache": "^3.1.4",
+    "koa-static-folder": "^0.1.6",
     "node-uuid": "^1.4.7",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
@@ -36,11 +45,17 @@
     "whatwg-fetch": "^0.11.0"
   },
   "devDependencies": {
+    "babel-core": "^6.4.5",
+    "babel-loader": "^6.2.1",
+    "babel-preset-react": "^6.3.13",
     "browserify": "^13.0.0",
     "envify": "^3.4.0",
+    "escape-html": "^1.0.3",
+    "jsx-loader": "^0.13.2",
     "react": "^0.14.6",
     "reactify": "^1.1.1",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "webpack": "^1.12.11"
   },
   "browserify": {
     "transform": [

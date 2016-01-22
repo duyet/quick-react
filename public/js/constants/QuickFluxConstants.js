@@ -6,5 +6,6 @@ module.exports = keyMirror({
     COLLECTION_ADD: null,
     COLLECTION_REMOVE: null,
     URL_VISIBLE: null,
-    RECEIVE_DATA: null
+    RECEIVE_DATA: null,
+    SET_USER: null
 });

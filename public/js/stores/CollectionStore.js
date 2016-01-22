@@ -2,11 +2,12 @@ var _ = require('underscore');
 var uuid = require('node-uuid');
 var EventEmitter = require('events').EventEmitter;
 
+var Drive = require('../utils/Drive');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var QuickFluxConstants = require('../constants/QuickFluxConstants');
 
 // Initial
-var _collections = [];
+var _collections = Drive.get('_collections');
 var _collection = {
 	url: '',
 	meta: {
@@ -18,8 +19,10 @@ var _collection = {
 };
 
 // Method to load 
-function loadCollectionData() {
-	return _collections;
+function getCollection() {
+    if (!_collections) _collections = [];
+
+    return _collections;
 }
 
 function setSelected(index) {
@@ -30,23 +33,27 @@ function setSelected(index) {
 function addToCollection(url, meta) {
 	var _data = _.extend({}, _collection, {
 		id: uuid.v1(),
+        time: new Date(),
 		url: url,
 		meta: meta
 	});
 
-    // TODO: Fetch URL info
-
-    _collections.push(_data);
+    _collections.unshift(_data); // push to top
+    Drive.set('_collections', _collections);
 }
 
 // Extend CollectionStore with EventEmitter to add eventing capabilities
 var CollectionStore = _.extend({}, EventEmitter.prototype, {
     getCollections: function() {
-        return _collections;
+        return getCollection();
+    },
+
+    addToCollection: function(url, meta) {
+        return addToCollection(url, meta);
     },
 
     getUrlCount: function() {
-    	return _collections.length;
+    	return getCollection().length || 0;
     },	
 
     // Emit Change event
@@ -68,15 +75,8 @@ var CollectionStore = _.extend({}, EventEmitter.prototype, {
 // Register callback with AppDispatcher
 AppDispatcher.register(function(payload) {
     var action = payload.action;
-    var text;
 
     switch (action.actionType) {
-
-        // Respond to RECEIVE_DATA action
-        case QuickFluxConstants.RECEIVE_DATA:
-            loadCollectionData();
-            break;
-
         case QuickFluxConstants.COLLECTION_ADD:
             addToCollection(action.url, action.meta);
             break;

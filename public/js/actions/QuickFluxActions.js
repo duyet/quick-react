@@ -33,6 +33,13 @@ var QuickFluxActions = {
             actionType: QuickFluxConstants.URL_VISIBLE,
             urlVisible: urlVisible
         })
+    },
+
+    setUser: function(user) {
+        AppDispatcher.handleAction({
+            actionType: QuickFluxConstants.SET_USER,
+            user: user
+        })  
     }
 };
 

@@ -1,14 +1,16 @@
 'use strict';
 
-var QuickDrive = window.localStorage || false;
-if (!QuickDrive) console.error("Not support window.localStorage");
+// var QuickDrive = window.localStorage || false;
+if (!localStorage) console.error("Not support window.localStorage");
 
 module.exports = {
 	set: function(key, value) {
-		return QuickDrive.setItem(key, value);
+		var _value = JSON.stringify(value);
+		return localStorage.setItem(key, _value);
 	},
 
 	get: function(key) {
-		return QuickDrive.getItem(key);
+		var data = localStorage.getItem(key);
+		return JSON.parse(data);
 	}
 };

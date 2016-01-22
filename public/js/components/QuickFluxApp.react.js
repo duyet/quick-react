@@ -1,11 +1,13 @@
 var React = require('react');
 
 var CollectionStore = require('../stores/CollectionStore');
+var UserStore = require('../stores/UserStore');
 var FluxCollectionList = require('./FluxCollectionList.react');
 var QuickForm = require('./QuickForm.react');
 
 // Method to retrieve state from Stores
 function getCollectionState() {
+    console.error("Load collection state");
     return {
         collections: CollectionStore.getCollections(),
     };
@@ -22,12 +24,23 @@ var QuickFluxApp = React.createClass({
     // Add change listeners 
     componentDidMount: function() {
     	document.title = 'Quick';
-        CollectionStore.addChangeListener(this._onChange);
+        CollectionStore.addChangeListener(this._onChangeCollection);
+        UserStore.addChangeListener(this._onLogin);
     },
 
     // Remove change listers from stores
     componentWillUnmount: function() {
-        CollectionStore.removeChangeListener(this._onChange);
+        CollectionStore.removeChangeListener(this._onChangeCollection);
+        UserStore.removeChangeListener(this._onLogin);
+    },
+
+    // Method to setState based upon Collection changes
+    _onChangeCollection: function() {
+        this.setState({collections: CollectionStore.getCollections()});
+    },
+
+    _onLogin: function() {
+        console.log("  _____ onLogin");
     },
 
     // Render our child components, passing state via props
@@ -41,13 +54,7 @@ var QuickFluxApp = React.createClass({
 				{this.props.children}
 			</div>
         );
-    },
-
-    // Method to setState based upon Collection changes
-    _onChange: function() {
-        this.setState(getCollectionState());
     }
-
 });
 
 module.exports = QuickFluxApp;

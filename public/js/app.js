@@ -2,10 +2,9 @@ window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.ReactRouter = require('react-router');
 
-var AppData = require('./AppData');
 var CollectionApi = require('./utils/CollectionApi');
 var QuickFluxApp = require('./components/QuickFluxApp.react');
-var FacebookButton = require('./components/LoginButton.react');
+var FBLogin = require('./components/FBLogin.react');
 var About = require('./components/About.react');
 var NoMatch = require('./components/NoMatch.react');
 
@@ -13,14 +12,11 @@ var Router = ReactRouter.Router;
 var browserHistory = ReactRouter.browserHistory	;
 var Route = ReactRouter.Route;
 
-// Load Mock data
-AppData.init();
-
 // Load Mock Api call
 CollectionApi.getUrlData(); 
 
 ReactDOM.render(
-	<FacebookButton fb={FB} />, 
+	<FBLogin fb={FB} />, 
 	document.getElementById('login-button')
 );
 
