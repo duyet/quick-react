@@ -10,14 +10,15 @@ var FluxCollectionList = React.createClass({
 
     // Render product View
     render: function() {
+      console.log('Render with ', this.props.collections);
         return (
           <div className="quick-collection">
             <ul>
-            {this.state.collections.map(function(row, i) {
+            {this.props.collections.map(function(row, i) {
               return (
                 <li key={i}>
                   <a href={row.url}>{row.url}</a>
-                  <em title={row.time}>{moment(row.time).fromNow()}</em></li>
+                  <em className="url-time" title={row.time}>{moment(row.time).fromNow()}</em></li>
               )
             })}
             </ul>

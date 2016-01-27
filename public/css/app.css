@@ -114,3 +114,11 @@ body {
         border-bottom: 0;
     }
 }
+
+.quick-collection {
+  margin-top: 30px;
+}
+.quick-collection .url-time {
+  font-size: 0.9em;
+  float: right;
+}

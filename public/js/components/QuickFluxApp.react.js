@@ -9,6 +9,7 @@ var QuickForm = require('./QuickForm.react');
 function getCollectionState() {
     return {
         collections: CollectionStore.getCollections(),
+        user: UserStore.getUser()
     };
 }
 
@@ -24,13 +25,13 @@ var QuickFluxApp = React.createClass({
     componentDidMount: function() {
     	document.title = 'Quick';
         CollectionStore.addChangeListener(this._onChangeCollection);
-        UserStore.addChangeListener(this._onLogin);
+        UserStore.addChangeListener(this._onChangeUser);
     },
 
     // Remove change listers from stores
     componentWillUnmount: function() {
         CollectionStore.removeChangeListener(this._onChangeCollection);
-        UserStore.removeChangeListener(this._onLogin);
+        UserStore.removeChangeListener(this._onChangeUser);
     },
 
     // Method to setState based upon Collection changes
@@ -38,16 +39,19 @@ var QuickFluxApp = React.createClass({
         this.setState({collections: CollectionStore.getCollections()});
     },
 
-    _onLogin: function() {
-        console.log("  _____ onLogin");
+    _onChangeUser: function() {
+        this.setState({collections: CollectionStore.getCollections()});
+        this.setState({user: UserStore.getUser()});
     },
 
     // Render our child components, passing state via props
     render: function() {
         return ( 
 			<div className="quick-app">
-				<QuickForm />
-				<FluxCollectionList 
+				<QuickForm 
+                    user={this.user} />
+				
+                <FluxCollectionList 
 					collections={this.state.collections} />
 
 				{this.props.children}

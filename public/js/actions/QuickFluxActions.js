@@ -1,5 +1,6 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var QuickFluxConstants = require('../constants/QuickFluxConstants');
+var UserStore = require('../stores/UserStore');
 
 var QuickFluxActions = {
     // Receive inital product data
@@ -12,8 +13,10 @@ var QuickFluxActions = {
 
     // Add item to cart
     addToCollection: function(url, meta) {
+        var user_id = UserStore.getUserId();
         AppDispatcher.handleAction({
             actionType: QuickFluxConstants.COLLECTION_ADD,
+            user_id: user_id,
             url: url,
             meta: meta
         })

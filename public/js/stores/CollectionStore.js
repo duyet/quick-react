@@ -6,6 +6,8 @@ var Drive = require('../utils/Drive');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var QuickFluxConstants = require('../constants/QuickFluxConstants');
 
+var UserStore = require('./UserStore');
+
 // Initial
 var _collections = Drive.get('_collections');
 var _collection = {
@@ -19,10 +21,15 @@ var _collection = {
 };
 
 // Method to load 
-function getCollection() {
+function getCollection(user_id) {
     if (!_collections) _collections = [];
 
-    return _collections;
+    var _results = [];
+    for (var i in _collections) {
+        if (_collections[i].user_id == user_id) _results.push(_collections[i]);
+    }
+    
+    return _results;
 }
 
 function setSelected(index) {
@@ -30,12 +37,13 @@ function setSelected(index) {
 }
 
 // Add url to collection
-function addToCollection(url, meta) {
+function addToCollection(user_id, url, meta) {
 	var _data = _.extend({}, _collection, {
 		id: uuid.v1(),
         time: new Date(),
 		url: url,
-		meta: meta
+		meta: meta,
+        user_id: user_id
 	});
 
     _collections.unshift(_data); // push to top
@@ -45,7 +53,9 @@ function addToCollection(url, meta) {
 // Extend CollectionStore with EventEmitter to add eventing capabilities
 var CollectionStore = _.extend({}, EventEmitter.prototype, {
     getCollections: function() {
-        return getCollection();
+        var user_id = UserStore.getUserId();
+        console.info("User_Id => ", user_id);
+        return getCollection(user_id);
     },
 
     addToCollection: function(url, meta) {
@@ -78,7 +88,7 @@ AppDispatcher.register(function(payload) {
 
     switch (action.actionType) {
         case QuickFluxConstants.COLLECTION_ADD:
-            addToCollection(action.url, action.meta);
+            addToCollection(action.user_id, action.url, action.meta);
             break;
 
         default:
