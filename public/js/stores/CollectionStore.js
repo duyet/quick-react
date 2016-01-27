@@ -12,12 +12,14 @@ var UserStore = require('./UserStore');
 var _collections = Drive.get('_collections');
 var _collection = {
 	url: '',
+    alias: '', // Shorten
 	meta: {
 		title: ''
 	},
 	click: 0,
 	vote: null,
-	user_id: null
+	user_id: null,
+    tags: []
 };
 
 // Method to load 
