@@ -62,6 +62,12 @@ var QuickFluxActions = {
             actionType: QuickFluxConstants.SET_TOKEN,
             token: token
         })  
+    },
+
+    signOut: function() {
+        AppDispatcher.handleAction({
+            actionType: QuickFluxConstants.SIGN_OUT
+        })  
     }, 
 };
 

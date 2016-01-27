@@ -11,4 +11,5 @@ module.exports = keyMirror({
     GET_USER: null,
     GET_TOKEN: null,
     SET_TOKEN: null,
+    SIGN_OUT: null,
 });

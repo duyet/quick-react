@@ -28,8 +28,14 @@ var FBLogin = React.createClass({
         UserStore.removeChangeListener(this._onChangeUser);
     },
 
+    // Remove change listers from stores
+    componentWillUnmount: function() {
+        UserStore.removeChangeListener(this._onChangeUser);
+    },
+
     _onChangeUser: function() {
         this.setState({user: UserStore.getUser()});
+        if (this.state.user && this.state.user.name) this.setState({isLogin: true});
     },
 
     onLogout: function(response) {
@@ -44,7 +50,8 @@ var FBLogin = React.createClass({
 
     render: function() {
     	var text = "Login";
-    	if (this.state.user && this.state.user.name) text = this.state.user.name;
+    	if (this.state.isLogin) text = this.state.user.name;
+        
         return (
 			<a className="nav-link" href="#/me" 
 				title="User data will save in your browser." 

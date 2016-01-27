@@ -29,8 +29,9 @@ function getUser() {
 }
 
 function getUserId() {
-    if (!_user || !_user.hasOwnProperty('id')) return 0;
-        return _user.id;
+    if (!_user || !_user.hasOwnProperty('user_id')) return 0;
+    
+    return _user.user_id;
 }
 
 function setIdToken(token) {
@@ -71,6 +72,11 @@ function getUserInfo() {
     }
 }
 
+function signOut() {
+    _user = {};
+    Drive.set('_user', _user);
+}
+
 // Extend CollectionStore with EventEmitter to add eventing capabilities
 var UserStore = _.extend({}, EventEmitter.prototype, {
     getUser: function() {
@@ -87,6 +93,10 @@ var UserStore = _.extend({}, EventEmitter.prototype, {
 
     setIdToken: function(token) {
         return setIdToken(token);
+    },
+
+    signOut: function() {
+        return signOut();
     },
 
     // Emit Change event
@@ -125,6 +135,10 @@ AppDispatcher.register(function(payload) {
 
         case QuickFluxConstants.GET_TOKEN:
             getIdToken();
+            break;
+
+        case QuickFluxConstants.SIGN_OUT:
+            signOut();
             break;
 
         default:

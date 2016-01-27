@@ -14,10 +14,21 @@ var Me = React.createClass({
     },
 
     componentDidMount: function() {
+    	UserStore.addChangeListener(this._onChangeUser);
         if (this.state.user && this.state.user.name) this.setState({isLogin: true});
     },
 
+    componentWillUnmount: function() {
+        UserStore.removeChangeListener(this._onChangeUser);
+    },
+
+    _onChangeUser: function() {
+    	this.setState({user: UserStore.getUser()});
+    	if (this.state.user && this.state.user.name) this.setState({isLogin: true});
+    },
+
     handleLogout: function(e) {
+    	QuickFluxActions.signOut();
     	this.setState({user: {}, isLogin: false});
     },
 
@@ -45,7 +56,7 @@ var Me = React.createClass({
 			  				Gender: {this.state.user.gender} <br />
 
 
-			  				<a href="#" onClick={this.handleLogout}>Logout</a>
+			  				<a href="javascript:;" onClick={this.handleLogout}>Logout</a>
 			  			</p>
 			  		</blockquote>
 			  	</div>

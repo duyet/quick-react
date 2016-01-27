@@ -22,7 +22,7 @@ var _collection = {
 
 // Method to load 
 function getCollection(user_id) {
-    if (!_collections) _collections = [];
+    if (!_collections || !user_id) _collections = [];
 
     var _results = [];
     for (var i in _collections) {
@@ -58,8 +58,8 @@ var CollectionStore = _.extend({}, EventEmitter.prototype, {
         return getCollection(user_id);
     },
 
-    addToCollection: function(url, meta) {
-        return addToCollection(url, meta);
+    addToCollection: function(user_id, url, meta) {
+        return addToCollection(user_id, url, meta);
     },
 
     getUrlCount: function() {
