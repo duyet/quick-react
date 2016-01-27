@@ -36,6 +36,7 @@
     "koa-route": "^2.4.2",
     "koa-static-cache": "^3.1.4",
     "koa-static-folder": "^0.1.6",
+    "moment": "^2.11.1",
     "node-uuid": "^1.4.7",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",

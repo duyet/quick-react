@@ -1,3 +1,4 @@
+var moment = require('moment');
 var React = require('react');
 var QuickFluxActions = require('../actions/QuickFluxActions');
 
@@ -10,11 +11,13 @@ var FluxCollectionList = React.createClass({
     // Render product View
     render: function() {
         return (
-          <div className="flux-collection">
+          <div className="quick-collection">
             <ul>
             {this.state.collections.map(function(row, i) {
               return (
-                <li key={i}>{row.url}</li>
+                <li key={i}>
+                  <a href={row.url}>{row.url}</a>
+                  <em title={row.time}>{moment(row.time).fromNow()}</em></li>
               )
             })}
             </ul>
