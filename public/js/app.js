@@ -25,3 +25,6 @@ ReactDOM.render((
   </Router>
 	), document.getElementById('quick-app')
 )
+
+var loading = document.getElementById('loading-state');
+if (loading) loading.style.display = 'none';
