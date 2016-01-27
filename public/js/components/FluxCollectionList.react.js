@@ -13,6 +13,13 @@ var FluxCollectionList = React.createClass({
       return './click?next=' + encodeURIComponent(data.url) + '&id=' + data.id;
     },
 
+    updateCounter: function(data) {
+      if (!data) return false;
+      data.click += 1;
+
+      return true;
+    },
+
     // Render product View
     render: function() {
         var self = this;
@@ -23,8 +30,10 @@ var FluxCollectionList = React.createClass({
             {this.props.collections.map(function(row, i) {
               return (
                 <li key={i} style={link_row_style}>
-                  <a href={self.getNextUrl(row)}>{row.url}</a>
-                  <em className="url-time" title={row.time}>{moment(row.time).fromNow()}</em></li>
+                  <a href={self.getNextUrl(row)} onClick={self.updateCounter(row)}>{row.url}</a>
+                  <em className="url-time" title={row.time}>{moment(row.time).fromNow()}</em>
+
+                </li>
               )
             })}
             </ul>
