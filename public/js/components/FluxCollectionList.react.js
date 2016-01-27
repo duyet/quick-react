@@ -8,16 +8,22 @@ var FluxCollectionList = React.createClass({
         return {collections: this.props.collections || []};
     },
 
+    getNextUrl: function(data) {
+      if (!data) return '';
+      return './click?next=' + encodeURIComponent(data.url) + '&id=' + data.id;
+    },
+
     // Render product View
     render: function() {
-      console.log('Render with ', this.props.collections);
+        var self = this;
+        var link_row_style = {marginBottom: 15};
         return (
           <div className="quick-collection">
             <ul>
             {this.props.collections.map(function(row, i) {
               return (
-                <li key={i}>
-                  <a href={row.url}>{row.url}</a>
+                <li key={i} style={link_row_style}>
+                  <a href={self.getNextUrl(row)}>{row.url}</a>
                   <em className="url-time" title={row.time}>{moment(row.time).fromNow()}</em></li>
               )
             })}
