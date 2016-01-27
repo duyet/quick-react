@@ -1,5 +1,6 @@
 var React = require('react');
 
+var QuickConstants =  require('../constants/QuickFluxConstants');
 var CollectionStore = require('../stores/CollectionStore');
 var UserStore = require('../stores/UserStore');
 var FluxCollectionList = require('./FluxCollectionList.react');

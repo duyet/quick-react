@@ -49,6 +49,19 @@ var QuickFluxActions = {
         AppDispatcher.handleAction({
             actionType: QuickFluxConstants.GET_USER
         })  
+    },
+
+    getUserToken: function() {
+        AppDispatcher.handleAction({
+            actionType: QuickFluxConstants.GET_TOKEN
+        })  
+    }, 
+
+    setUserToken: function(token) {
+        AppDispatcher.handleAction({
+            actionType: QuickFluxConstants.SET_TOKEN,
+            token: token
+        })  
     }, 
 };
 

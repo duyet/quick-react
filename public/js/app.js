@@ -19,9 +19,9 @@ ReactDOM.render(
 // Render 
 ReactDOM.render((
   <Router history={browserHistory}>
-    <Route path="/" component={QuickFluxApp} />
     <Route path="/about" component={About} />
     <Route path="/me" component={Me} />
+    <Route path="*" component={QuickFluxApp} />
   </Router>
 	), document.getElementById('quick-app')
 )

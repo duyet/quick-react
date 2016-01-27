@@ -1,33 +1,35 @@
 var React = require('react');
 var QuickFluxActions = require('../actions/QuickFluxActions');
+var UserStore = require('../stores/UserStore');
+
+window.lock = window.lock || new Auth0Lock(AUTH0_KEY, AUTH0_DOMAIN);
 
 // Flux product view
 var FBLogin = React.createClass({
     getInitialState: function() {
         return {
             message: "",
-            users: {},
-            isLogin: false
+            user: UserStore.getUser(),
+            isLogin: false,
         };
     },
 
-    componentDidMount: function() {
-        var self = this;
-        this.FB = this.props.fb;
-        fbAsyncInit();
+    showLock: function(e) {
+        if (this.state.isLogin) return;
 
-        this.FB.getLoginStatus(function(response) {
-			if (response.status === 'connected') {
-				self.setState({isLogin: true});
-				FB.api('/me', {}, function(response) {
-					QuickFluxActions.setUser(response);
-					self.setState({users: response});
-				});
-			}
-			else {
-				// FB.login();
-			}
-		});
+        e.preventDefault();
+        // We receive lock from the parent component in this case
+        // If you instantiate it in this component, just do this.lock.show()
+        window.lock.show();
+      },
+
+    componentDidMount: function() {
+        if (this.state.user && this.state.user.name) this.setState({isLogin: true});
+        UserStore.removeChangeListener(this._onChangeUser);
+    },
+
+    _onChangeUser: function() {
+        this.setState({user: UserStore.getUser()});
     },
 
     onLogout: function(response) {
@@ -37,32 +39,15 @@ var FBLogin = React.createClass({
     },
 
     handleClickLogin: function(e) {
-    	if (!this.state.isLogin) {
-            this.doLogin();            
-        }
-    },
-
-    doLogin: function() {
-       var self = this;
-       this.FB.login(function(response){
-            if (response.authResponse) {
-                self.setState({isLogin: true});
-
-                FB.api('/me', {}, function(response) {
-                    QuickFluxActions.setUser(response);
-                    self.setState({users: response});
-                });
-            }
-        }, {scope: 'public_profile,email'}); 
+    	this.showLock(e);
     },
 
     render: function() {
     	var text = "Login";
-    	if (this.state.users && this.state.users.name) text = this.state.users.name;
+    	if (this.state.user && this.state.user.name) text = this.state.user.name;
         return (
 			<a className="nav-link" href="#/me" 
 				title="User data will save in your browser." 
-				data-user-id={this.state.users.id} 
 				onClick={this.handleClickLogin}>{text}</a>
         )
     }
