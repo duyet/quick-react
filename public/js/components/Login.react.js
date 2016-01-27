@@ -5,7 +5,7 @@ var UserStore = require('../stores/UserStore');
 window.lock = window.lock || new Auth0Lock(AUTH0_KEY, AUTH0_DOMAIN);
 
 // Flux product view
-var FBLogin = React.createClass({
+var Login = React.createClass({
     getInitialState: function() {
         return {
             message: "",
@@ -60,4 +60,4 @@ var FBLogin = React.createClass({
     }
 });
 
-module.exports = FBLogin;
+module.exports = Login;

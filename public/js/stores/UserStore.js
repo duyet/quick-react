@@ -8,11 +8,12 @@ var QuickFluxConstants = require('../constants/QuickFluxConstants');
 window.lock = window.lock || new Auth0Lock(AUTH0_KEY, AUTH0_DOMAIN);
 
 // Initial
-var _user = {};
+var _user = {
+    user_id: '_guest_'
+};
 
 (function() {
     getUser();
-
 })();
 
 function setUser(user) {
@@ -21,7 +22,8 @@ function setUser(user) {
 }
 
 function getUser() {
-    _user = Drive.get('_user');
+    _user = _.extend({}, _user, Drive.get('_user'));
+    
     getUserInfo();
     setUser(_user);
 
