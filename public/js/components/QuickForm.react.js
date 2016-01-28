@@ -1,3 +1,4 @@
+var _ = require('underscore');
 var validUrl = require('valid-url');
 var React = require('react');
 var QuickFluxActions = require('../actions/QuickFluxActions');
@@ -29,12 +30,20 @@ var QuickForm = React.createClass({
 			return;
 		}
 
+		var inserted_data = null;
 		var meta = {};
 		alchemyapi.title('url', new_url, {outputMode: 'json'}, function(response) {
-			if (response && response.title) meta.title = response.title;
+			if (inserted_data && response && response.status == 'OK' && response.title) {
+				inserted_data.meta = inserted_data.meta || {};
+				inserted_data.meta.title = response.title;
+				QuickFluxActions.updateUrlData(inserted_data.id, inserted_data);
+			}
 		});
 
-		QuickFluxActions.addToCollection(new_url, meta);
+		QuickFluxActions.addToCollection(new_url, meta, function(data) {
+			inserted_data = data;
+		});
+
 		this.setState({url: ''}); // Reset
 	},
 

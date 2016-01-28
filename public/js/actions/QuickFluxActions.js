@@ -12,13 +12,23 @@ var QuickFluxActions = {
     },
 
     // Add item to cart
-    addToCollection: function(url, meta) {
+    addToCollection: function(url, meta, cb) {
         var user_id = UserStore.getUserId();
         AppDispatcher.handleAction({
             actionType: QuickFluxConstants.COLLECTION_ADD,
             user_id: user_id,
             url: url,
-            meta: meta
+            meta: meta,
+            cb: cb
+        })
+    },
+
+    // Remove item from cart
+    updateUrlData: function(id, data) {
+        AppDispatcher.handleAction({
+            actionType: QuickFluxConstants.UPDATE_URL,
+            id: id,
+            data: data
         })
     },
 

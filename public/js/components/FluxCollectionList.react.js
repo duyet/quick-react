@@ -27,7 +27,7 @@ var FluxCollectionList = React.createClass({
             {this.props.collections.map(function(row, i) {
               return (
                 <li key={i} style={link_row_style}>
-                  <a href={self.getNextUrl(row)}>{row.url}</a>
+                  <a href={self.getNextUrl(row)}>{(row.meta && row.meta.title) ? row.meta.title : row.url}</a>
                   <em className="url-time" title={row.time}>{moment(row.time).fromNow()}</em>
 
                 </li>

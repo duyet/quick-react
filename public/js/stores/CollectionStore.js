@@ -39,7 +39,7 @@ function setSelected(index) {
 }
 
 // Add url to collection
-function addToCollection(user_id, url, meta) {
+function addToCollection(user_id, url, meta, cb) {
 	var _data = _.extend({}, _collection, {
 		id: uuid.v1(),
         time: new Date(),
@@ -50,6 +50,14 @@ function addToCollection(user_id, url, meta) {
 
     _collections.unshift(_data); // push to top
     Drive.set('_collections', _collections);
+
+    if (cb) cb(_data);
+}
+
+function updateUrlData(id, data) {
+    for (var i in _collections) {
+        if (_collections[i].id == id) _collections[i] = _.extend({}, _collections[i], data);
+    }
 }
 
 // Extend CollectionStore with EventEmitter to add eventing capabilities
@@ -60,8 +68,12 @@ var CollectionStore = _.extend({}, EventEmitter.prototype, {
         return getCollection(user_id);
     },
 
-    addToCollection: function(user_id, url, meta) {
-        return addToCollection(user_id, url, meta);
+    addToCollection: function(user_id, url, meta, cb) {
+        return addToCollection(user_id, url, meta, cb);
+    },
+
+    updateUrlData: function(id, data) {
+        return updateUrlData(id, data);
     },
 
     getUrlCount: function() {
@@ -90,7 +102,11 @@ AppDispatcher.register(function(payload) {
 
     switch (action.actionType) {
         case QuickFluxConstants.COLLECTION_ADD:
-            addToCollection(action.user_id, action.url, action.meta);
+            addToCollection(action.user_id, action.url, action.meta, action.cb);
+            break;
+
+        case QuickFluxConstants.UPDATE_URL:
+            updateUrlData(action.id, action.data);
             break;
 
         default:
