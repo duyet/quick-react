@@ -1,6 +1,10 @@
 var validUrl = require('valid-url');
 var React = require('react');
 var QuickFluxActions = require('../actions/QuickFluxActions');
+var Config = require('../config.react');
+var AlchemyApi = require('../utils/alchemyapi');
+
+var alchemyapi = new AlchemyApi(Config.ALCHEMYAPI);
 
 // Flux product view
 var QuickForm = React.createClass({
@@ -25,7 +29,12 @@ var QuickForm = React.createClass({
 			return;
 		}
 
-		QuickFluxActions.addToCollection(new_url, {});
+		var meta = {};
+		alchemyapi.title('url', new_url, {outputMode: 'json'}, function(response) {
+			if (response && response.title) meta.title = response.title;
+		});
+
+		QuickFluxActions.addToCollection(new_url, meta);
 		this.setState({url: ''}); // Reset
 	},
 
