@@ -53,6 +53,7 @@ build:
 gh-pages:
 	echo "Build gh-page ..."
 	git branch -D gh-pages
+	git push origin --delete gh-pages
 	git checkout -b gh-pages
 	@NODE_ENV=production ./node_modules/.bin/browserify \
 	public/js/app.js \
