@@ -27,6 +27,7 @@ app.use(staticCache(assetspath, {
 
 app.use(route.get('/', require('./app/controllers/home')));
 app.use(route.get('/click', require('./app/controllers/click')));
+app.use(route.get('/fetch', require('./app/controllers/fetch')));
 
 app = module.exports = http.createServer(app.callback());
 

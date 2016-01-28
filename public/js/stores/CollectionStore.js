@@ -56,8 +56,10 @@ function addToCollection(user_id, url, meta, cb) {
 
 function updateUrlData(id, data) {
     for (var i in _collections) {
-        if (_collections[i].id == id) _collections[i] = _.extend({}, _collections[i], data);
+        if (_collections[i].id == id) _collections[i] = _.extend(_collections[i], data);
     }
+    
+    Drive.set('_collections', _collections);
 }
 
 // Extend CollectionStore with EventEmitter to add eventing capabilities

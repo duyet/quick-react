@@ -30,15 +30,24 @@ var QuickForm = React.createClass({
 			return;
 		}
 
+
 		var inserted_data = null;
 		var meta = {};
-		alchemyapi.title('url', new_url, {outputMode: 'json'}, function(response) {
-			if (inserted_data && response && response.status == 'OK' && response.title) {
-				inserted_data.meta = inserted_data.meta || {};
-				inserted_data.meta.title = response.title;
-				QuickFluxActions.updateUrlData(inserted_data.id, inserted_data);
-			}
-		});
+		function updateMeta(response) {
+			if (!(response && inserted_data && response.status == 'OK')) return false;
+			inserted_data.meta = inserted_data.meta || {};
+
+			if (response.title) inserted_data.meta.title 		= response.title;
+			if (response.language) inserted_data.meta.language 	= response.language;
+			if (response.category) inserted_data.meta.category	= response.category;
+			if (response.feeds) inserted_data.meta.feeds 		= response.feeds;
+
+			QuickFluxActions.updateUrlData(inserted_data.id, inserted_data);
+		}
+
+		alchemyapi.title('url', new_url, {outputMode: 'json'}, updateMeta);
+		alchemyapi.category('url', new_url, {outputMode: 'json'}, updateMeta);
+		alchemyapi.feeds('url', new_url, {outputMode: 'json'}, updateMeta);
 
 		QuickFluxActions.addToCollection(new_url, meta, function(data) {
 			inserted_data = data;
