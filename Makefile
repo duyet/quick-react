@@ -50,9 +50,10 @@ build:
 	--transform envify \
 	-o public/js/bundle.js
 
-gh-page:
+gh-pages:
 	echo "Build gh-page ..."
-	git checkout gh-pages
+	git branch -D gh-pages
+	git checkout -b gh-pages
 	@NODE_ENV=production ./node_modules/.bin/browserify \
 	public/js/app.js \
 	--transform reactify \
@@ -62,7 +63,7 @@ gh-page:
 	cp views/index.html index.html
 	git add .
 	git commit -m "Build gh-page"
-	git push origin gh-page
+	git push origin gh-pages
 	git checkout master
 
 autod: install
