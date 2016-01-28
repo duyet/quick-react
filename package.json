@@ -2,11 +2,12 @@
   "name": "quick",
   "version": "0.1.0",
   "description": "Save link, by quick collection, quick access",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "watchify -o public/js/bundle.js -v -d public/js/app.js",
-    "build": "browserify . | uglifyjs -cm > public/js/bundle.min.js"
+    "watch": "./node_modules/.bin/watchify -o public/js/bundle.js -v -d public/js/app.js",
+    "start": "node app.js",
+    "build": "./node_modules/.bin/browserify . | ./node_modules/.bin/uglifyjs -cm > public/js/bundle.min.js"
   },
   "repository": {
     "type": "git",
