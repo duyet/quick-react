@@ -14,10 +14,7 @@ var FluxCollectionList = React.createClass({
     },
 
     updateCounter: function(data) {
-      if (!data) return false;
       data.click += 1;
-
-      return true;
     },
 
     // Render product View
@@ -30,7 +27,7 @@ var FluxCollectionList = React.createClass({
             {this.props.collections.map(function(row, i) {
               return (
                 <li key={i} style={link_row_style}>
-                  <a href={self.getNextUrl(row)} onClick={self.updateCounter(row)}>{row.url}</a>
+                  <a href={self.getNextUrl(row)}>{row.url}</a>
                   <em className="url-time" title={row.time}>{moment(row.time).fromNow()}</em>
 
                 </li>

@@ -1,45 +1,34 @@
 var React = require('react');
 var QuickFluxActions = require('../actions/QuickFluxActions');
+var UserStore = require('../stores/UserStore');
+
+window.lock = window.lock || new Auth0Lock(AUTH0_KEY, AUTH0_DOMAIN);
 
 // Flux product view
 var Me = React.createClass({
 	getInitialState: function() {
         return {
-            user: {},
-            isLogin: false
+            user: UserStore.getUser(),
+            isLogin: false,
         };
     },
 
     componentDidMount: function() {
-        var self = this;
-        this.FB = window.FB;
+    	UserStore.addChangeListener(this._onChangeUser);
+        if (this.state.user && this.state.user.name) this.setState({isLogin: true});
+    },
 
-        if (!this.FB) return;
+    componentWillUnmount: function() {
+        UserStore.removeChangeListener(this._onChangeUser);
+    },
 
-        fbAsyncInit();
-
-        this.FB.getLoginStatus(function(response) {
-			if (response.status === 'connected') {
-				self.setState({isLogin: true});
-				FB.api('/me', {fields: 'birthday, email, name, gender'}, function(response) {
-					console.log(response)
-					QuickFluxActions.setUser(response);
-					self.setState({user: response, isLogin: true});
-				});
-
-				FB.api('/me/picture', function (response) {
-			      if (response && !response.error) {
-			        console.log(response)
-			      }
-			    })
-			}
-			else {
-			}
-		});
+    _onChangeUser: function() {
+    	this.setState({user: UserStore.getUser()});
+    	if (this.state.user && this.state.user.name) this.setState({isLogin: true});
     },
 
     handleLogout: function(e) {
-    	FB.logout();
+    	QuickFluxActions.signOut();
     	this.setState({user: {}, isLogin: false});
     },
 
@@ -47,25 +36,41 @@ var Me = React.createClass({
 		var boxStyle = { marginTop: 20, color: "#FFF" };
 		var headlineStyle = { fontSize: 20, color: "#FFF" };
 
-		return (
-		  <div className="card card-inverse card-primary text-xs-center" style={boxStyle}>
-		  	<div className="card-block">
-		  		<blockquote className="card-blockquote">
-		  			<center>
-		  				<a href={'http://fb.com/' + this.state.user.id}>
-		  					<h1 style={headlineStyle}>
-		  						{this.state.isLogin ? this.state.user.name : 'Not login'}
-		  					</h1>
-		  				</a>
-		  			</center>
-		  			<hr />
-		  			<p>
-		  				<a href="#" onClick={this.handleLogout}>Logout</a>
-		  			</p>
-		  		</blockquote>
-		  	</div>
-		  </div>
-		);
+		console.log(this.state.user)
+
+		if (this.state.isLogin) {
+			return (
+			  <div className="card card-inverse card-primary text-xs-center" style={boxStyle}>
+			  	<div className="card-block">
+			  		<blockquote className="card-blockquote">
+			  			<center>
+			  				<a href={'http://fb.com/' + this.state.user.id}>
+			  					<h1 style={headlineStyle}>
+			  						{this.state.user.name}
+			  					</h1>
+			  				</a>
+			  			</center>
+			  			<hr />
+			  			<p>
+			  				Email: {this.state.user.email} <br />
+			  				Gender: {this.state.user.gender} <br />
+
+
+			  				<a href="javascript:;" onClick={this.handleLogout}>Logout</a>
+			  			</p>
+			  		</blockquote>
+			  	</div>
+			  </div>
+			);
+		} else {
+			return (
+				<div className="card card-danger text-xs-center" style={boxStyle}>
+					<div className="card-block">
+						Not login
+					</div>
+				</div>
+			);
+		}
 	}
 });
 

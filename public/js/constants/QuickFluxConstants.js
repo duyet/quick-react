@@ -8,5 +8,8 @@ module.exports = keyMirror({
     URL_VISIBLE: null,
     RECEIVE_DATA: null,
     SET_USER: null,
-    GET_USER: null
+    GET_USER: null,
+    GET_TOKEN: null,
+    SET_TOKEN: null,
+    SIGN_OUT: null,
 });

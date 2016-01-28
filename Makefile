@@ -45,13 +45,13 @@ watch:
 
 build:
 	@NODE_ENV=production ./node_modules/.bin/browserify \
-	public/javascripts/app.js \
+	public/js/app.js \
 	--transform reactify \
 	--transform envify \
-	-o public/javascripts/bundle.js
+	-o public/js/bundle.js
 
 autod: install
-	@./node_modules/.bin/autod -w -e views,public/javascripts/bundle.js $(REGISTRY) --prefix="~"
+	@./node_modules/.bin/autod -w -e views,public/js/bundle.js $(REGISTRY) --prefix="~"
 	@$(MAKE) install
 
 .PHONY: test

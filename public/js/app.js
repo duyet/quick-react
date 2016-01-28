@@ -3,7 +3,7 @@ window.ReactDOM = require('react-dom');
 window.ReactRouter = require('react-router');
 
 var QuickFluxApp = require('./components/QuickFluxApp.react');
-var FBLogin = require('./components/FBLogin.react');
+var Login = require('./components/Login.react');
 var About = require('./components/About.react');
 var Me = require('./components/Me.react');
 
@@ -12,16 +12,16 @@ var browserHistory = ReactRouter.browserHistory	;
 var Route = ReactRouter.Route;
 
 ReactDOM.render(
-	<FBLogin fb={FB} />, 
+	<Login />, 
 	document.getElementById('login-button')
 );
 
 // Render 
 ReactDOM.render((
   <Router history={browserHistory}>
-    <Route path="/" component={QuickFluxApp} />
     <Route path="/about" component={About} />
     <Route path="/me" component={Me} />
+    <Route path="*" component={QuickFluxApp} />
   </Router>
 	), document.getElementById('quick-app')
 )
