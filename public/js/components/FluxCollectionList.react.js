@@ -1,6 +1,7 @@
 var moment = require('moment');
 var React = require('react');
 var QuickFluxActions = require('../actions/QuickFluxActions');
+var Tracker = require('../utils/Tracker');
 
 // Flux product view
 var FluxCollectionList = React.createClass({
@@ -9,8 +10,7 @@ var FluxCollectionList = React.createClass({
     },
 
     getNextUrl: function(data) {
-      if (!data) return '';
-      return './click?next=' + encodeURIComponent(data.url) + '&id=' + data.id;
+      return Tracker.getTrackerLink(data);
     },
 
     updateCounter: function(data) {
@@ -23,17 +23,20 @@ var FluxCollectionList = React.createClass({
         var link_row_style = {marginBottom: 15};
         return (
           <div className="quick-collection">
-            <ul>
+            <table className="table">
             {this.props.collections.map(function(row, i) {
               return (
-                <li key={i} style={link_row_style}>
+                <tr>
+                <td key={i} style={link_row_style}>
                   <a href={self.getNextUrl(row)}>{(row.meta && row.meta.title) ? row.meta.title : row.url}</a>
+                </td>
+                <td>
                   <em className="url-time" title={row.time}>{moment(row.time).fromNow()}</em>
-
-                </li>
+                </td>
+                </tr>
               )
             })}
-            </ul>
+            </table>
           </div>
         );
     },

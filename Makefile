@@ -50,6 +50,21 @@ build:
 	--transform envify \
 	-o public/js/bundle.js
 
+gh-page:
+	echo "Build gh-page ..."
+	git checkout gh-pages
+	@NODE_ENV=production ./node_modules/.bin/browserify \
+	public/js/app.js \
+	--transform reactify \
+	--transform envify \
+	-o public/js/bundle.js
+	
+	cp views/index.html index.html
+	git add .
+	git commit -m "Build gh-page"
+	git push origin gh-page
+	git checkout master
+
 autod: install
 	@./node_modules/.bin/autod -w -e views,public/js/bundle.js $(REGISTRY) --prefix="~"
 	@$(MAKE) install
