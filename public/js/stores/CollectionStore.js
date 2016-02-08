@@ -7,11 +7,12 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var QuickFluxConstants = require('../constants/QuickFluxConstants');
 
 var UserStore = require('./UserStore');
-
 // Initial
 var _collections = Drive.get('_collections');
 var _collection = {
-	url: '',
+	_id: '',
+    client_id: '',
+    url: '',
     alias: '', // Shorten
 	meta: {
 		title: ''
@@ -41,8 +42,9 @@ function setSelected(index) {
 // Add url to collection
 function addToCollection(user_id, url, meta, cb) {
 	var _data = _.extend({}, _collection, {
-		id: uuid.v1(),
-        time: new Date(),
+        client_id: uuid.v1(),
+		key: uuid.v1(),
+        last_update: new Date(),
 		url: url,
 		meta: meta,
         user_id: user_id
@@ -50,6 +52,7 @@ function addToCollection(user_id, url, meta, cb) {
 
     _collections.unshift(_data); // push to top
     Drive.set('_collections', _collections);
+    SyncData();
 
     if (cb) cb(_data);
 }
@@ -60,6 +63,49 @@ function updateUrlData(id, data) {
     }
     
     Drive.set('_collections', _collections);
+}
+
+function SyncData(data) {
+    function syncItemSuccess(data, status) {
+        console.log('Sync ok.', data);
+    }
+
+    function syncItemError(jqXHR, textStatus) {
+        console.log('Sync error', jqXHR, textStatus);
+    }
+
+    // ==========================
+    // Update to server
+    if (data) {
+        // Method = POST
+        var method = 'POST';
+
+        var sync_url = QUICK_API + '/' + 'collections';
+        if (data.hasOwnProperty('_id') && data._id.length > 0) {
+            sync_url += '/' + data._id;
+        }
+
+        $.ajax({
+            url: sync_url,
+            method: method,
+            data: data,
+            success: syncItemSuccess,
+            error: syncItemError
+        });
+
+        return;
+    }
+
+    for (var i in _collections) {
+        SyncData(_collections[i]);
+    }
+
+    // ==========================
+    // Fetch from server
+
+
+    // ===========================
+    // Conflict data 
 }
 
 // Extend CollectionStore with EventEmitter to add eventing capabilities

@@ -24,18 +24,20 @@ var FluxCollectionList = React.createClass({
         return (
           <div className="quick-collection">
             <table className="table">
-            {this.props.collections.map(function(row, i) {
-              return (
-                <tr>
-                <td key={i} style={link_row_style}>
-                  <a href={self.getNextUrl(row)}>{(row.meta && row.meta.title) ? row.meta.title : row.url}</a>
-                </td>
-                <td>
-                  <em className="url-time" title={row.time}>{moment(row.time).fromNow()}</em>
-                </td>
-                </tr>
-              )
-            })}
+              <tbody>
+              {this.props.collections.map(function(row, i) {
+                return (
+                  <tr>
+                  <td key={i} style={link_row_style}>
+                    <a href={self.getNextUrl(row)}>{(row.meta && row.meta.title) ? row.meta.title : row.url}</a>
+                  </td>
+                  <td>
+                    <em className="url-time" title={row.time}>{moment(row.time).fromNow()}</em>
+                  </td>
+                  </tr>
+                )
+              })}
+              </tbody>
             </table>
           </div>
         );

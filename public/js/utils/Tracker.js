@@ -4,7 +4,7 @@ module.exports = {
 		if (!data) return '';
 		return './click?next=' 
 			+ encodeURIComponent(data.url) 
-			+ '&id=' + data.id
+			+ '&id=' + data.client_id
 			+ '&time=' + moment();
 	}
 };

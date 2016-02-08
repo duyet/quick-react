@@ -26,5 +26,6 @@ ReactDOM.render((
 	), document.getElementById('quick-app')
 )
 
-var loading = document.getElementById('loading-state');
+window.loadStateId = 'loading-state';
+var loading = document.getElementById(window.loadStateId);
 if (loading) loading.style.display = 'none';
