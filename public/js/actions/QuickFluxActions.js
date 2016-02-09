@@ -24,10 +24,10 @@ var QuickFluxActions = {
     },
 
     // Remove item from cart
-    updateUrlData: function(id, data) {
+    updateUrlData: function(client_id, data) {
         AppDispatcher.handleAction({
             actionType: QuickFluxConstants.UPDATE_URL,
-            id: id,
+            client_id: client_id,
             data: data
         })
     },

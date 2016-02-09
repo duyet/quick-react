@@ -1,27 +1,32 @@
 var _ = require('underscore');
+var moment = require('moment');
 var uuid = require('node-uuid');
 var EventEmitter = require('events').EventEmitter;
 
 var Drive = require('../utils/Drive');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var QuickFluxConstants = require('../constants/QuickFluxConstants');
+var Sync = require('../utils/Sync');
+var sync = new Sync();
 
 var UserStore = require('./UserStore');
 // Initial
 var _collections = Drive.get('_collections');
 var _collection = {
-	_id: '',
-    client_id: '',
+    _id: null,
+    client_id: null,
     url: '',
     alias: '', // Shorten
-	meta: {
-		title: ''
-	},
-	click: 0,
-	vote: null,
-	user_id: null,
+    meta: {
+    	title: ''
+    },
+    click: 0,
+    vote: null,
+    user_id: null,
     tags: []
 };
+
+sync.register('collections', _collections);
 
 // Method to load 
 function getCollection(user_id) {
@@ -33,10 +38,6 @@ function getCollection(user_id) {
     }
     
     return _results;
-}
-
-function setSelected(index) {
-    _selected = _collection.urls[index];
 }
 
 // Add url to collection
@@ -57,22 +58,15 @@ function addToCollection(user_id, url, meta, cb) {
     if (cb) cb(_data);
 }
 
-function updateUrlData(id, data) {
+function updateUrlData(client_id, data) {
     for (var i in _collections) {
-        if (_collections[i].id == id) _collections[i] = _.extend(_collections[i], data);
+        if (_collections[i].client_id == client_id) _collections[i] = _.extend(_collections[i], data);
     }
     
     Drive.set('_collections', _collections);
 }
 
 function SyncData(data) {
-    function syncItemSuccess(data, status) {
-        console.log('Sync ok.', data);
-    }
-
-    function syncItemError(jqXHR, textStatus) {
-        console.log('Sync error', jqXHR, textStatus);
-    }
 
     // ==========================
     // Update to server
@@ -81,16 +75,24 @@ function SyncData(data) {
         var method = 'POST';
 
         var sync_url = QUICK_API + '/' + 'collections';
-        if (data.hasOwnProperty('_id') && data._id.length > 0) {
+        if (data.hasOwnProperty('_id') && data._id != null) {
             sync_url += '/' + data._id;
         }
+
+        // Update sync time version
+        data.sync_time = moment();
 
         $.ajax({
             url: sync_url,
             method: method,
             data: data,
-            success: syncItemSuccess,
-            error: syncItemError
+            success: function( server_data, status ) { 
+                data = _.extend(data, server_data); 
+                console.log('Sync ok.', data);
+            },
+            error: function(jqXHR, textStatus) {
+                console.log('Sync item error', jqXHR, textStatus);
+            }
         });
 
         return;
@@ -99,6 +101,9 @@ function SyncData(data) {
     for (var i in _collections) {
         SyncData(_collections[i]);
     }
+
+    // Save back
+    Drive.set('_collections', _collections);
 
     // ==========================
     // Fetch from server
@@ -120,8 +125,8 @@ var CollectionStore = _.extend({}, EventEmitter.prototype, {
         return addToCollection(user_id, url, meta, cb);
     },
 
-    updateUrlData: function(id, data) {
-        return updateUrlData(id, data);
+    updateUrlData: function(client_id, data) {
+        return updateUrlData(client_id, data);
     },
 
     getUrlCount: function() {
@@ -154,7 +159,7 @@ AppDispatcher.register(function(payload) {
             break;
 
         case QuickFluxConstants.UPDATE_URL:
-            updateUrlData(action.id, action.data);
+            updateUrlData(action.client_id, action.data);
             break;
 
         default:

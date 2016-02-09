@@ -49,6 +49,7 @@ build:
 	--transform reactify \
 	--transform envify \
 	-o public/js/bundle.js
+	./node_modules/.bin/uglifyjs public/js/bundle.js --compress --output public/js/bundle.min.js
 
 gh-pages:
 	echo "Build gh-page ..."

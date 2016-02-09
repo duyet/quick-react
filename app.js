@@ -30,6 +30,7 @@ app.use(staticCache(assetspath, {
 
 // Api
 generateApi(app, route, require('./app/api/collection'), '/api/v1');
+generateApi(app, route, require('./app/api/user'), '/api/v1');
 
 app.use(route.get('/', require('./app/controllers/home')));
 app.use(route.get('/click', require('./app/controllers/click')));

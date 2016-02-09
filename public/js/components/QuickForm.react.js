@@ -42,12 +42,12 @@ var QuickForm = React.createClass({
 			if (response.category) inserted_data.meta.category	= response.category;
 			if (response.feeds) inserted_data.meta.feeds 		= response.feeds;
 
-			QuickFluxActions.updateUrlData(inserted_data.id, inserted_data);
+			QuickFluxActions.updateUrlData(inserted_data.client_id, inserted_data);
 		}
 
 		alchemyapi.title('url', new_url, {outputMode: 'json'}, updateMeta);
 		alchemyapi.category('url', new_url, {outputMode: 'json'}, updateMeta);
-		alchemyapi.feeds('url', new_url, {outputMode: 'json'}, updateMeta);
+		// alchemyapi.feeds('url', new_url, {outputMode: 'json'}, updateMeta);
 
 		QuickFluxActions.addToCollection(new_url, meta, function(data) {
 			inserted_data = data;
