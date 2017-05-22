@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "./node_modules/.bin/watchify -o public/js/bundle.js -v -d public/js/app.js",
     "start": "node app.js",
-    "build": "./node_modules/.bin/browserify . | ./node_modules/.bin/uglifyjs -cm > public/js/bundle.min.js"
+    "build": "./node_modules/.bin/browserify . | ./node_modules/.bin/uglifyjs -cm > public/js/bundle.min.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -33,7 +35,7 @@
     "flux": "^2.1.1",
     "history": "^1.17.0",
     "koa": "^1.1.2",
-    "koa-middlewares": "^4.1.0",
+    "koa-middlewares": "^5.0.0",
     "koa-mongo-rest": "^0.3.4",
     "koa-react-view": "^2.0.0",
     "koa-route": "^2.4.2",
@@ -49,7 +51,8 @@
     "react-router": "^1.0.3",
     "underscore": "^1.8.3",
     "valid-url": "^1.0.9",
-    "whatwg-fetch": "^0.11.0"
+    "whatwg-fetch": "^0.11.0",
+    "snyk": "^1.30.1"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",
@@ -70,5 +73,6 @@
       "reactify",
       "envify"
     ]
-  }
+  },
+  "snyk": true
 }
