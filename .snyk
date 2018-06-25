@@ -1,0 +1,13 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.12.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:mime:20170907':
+    - koa-static-folder > koa > mime:
+        patched: '2018-06-25T22:53:37.383Z'
+    - koa-static-folder > koa > type-is > mime:
+        patched: '2018-06-25T22:53:37.383Z'
+  'npm:tunnel-agent:20170305':
+    - node-metainspector > request > tunnel-agent:
+        patched: '2018-06-25T22:53:37.383Z'
