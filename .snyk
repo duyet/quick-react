@@ -1,0 +1,46 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - babel-register > babel-core > babel-helpers > babel-template > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - node-metainspector > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - mongoose > async > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - koa-mongo-rest > mongoose > async > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-traverse > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-types > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-generator > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-register > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-template > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-template > babel-traverse > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-template > babel-types > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-traverse > babel-types > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - node-metainspector > request > form-data > async > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-generator > babel-types > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-traverse > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-types > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-template > babel-traverse > babel-types > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-traverse > babel-types > lodash:
+        patched: '2019-07-08T06:49:55.297Z'
