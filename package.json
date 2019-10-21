@@ -41,7 +41,7 @@
     "koa-static-cache": "^3.1.4",
     "koa-static-folder": "^0.1.6",
     "moment": "^2.11.1",
-    "mongoose": "^4.4.0",
+    "mongoose": "^5.7.5",
     "node-metainspector": "^1.2.0",
     "node-uuid": "^1.4.7",
     "react": "^0.14.6",
